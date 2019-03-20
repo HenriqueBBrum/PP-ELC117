@@ -1,0 +1,100 @@
+:q
+isInt "abc"
+isInt "c02"
+isInt "02l2"
+isInt "0002"
+:load t1.hs
+:load t1.hs
+isInt "0002"
+:load t1.hs
+isInt "0002"
+isInt "02l2"
+isInt "c02"
+isInt "abc"
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+isInt "abc"
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+isInt "aa"
+isInt "00"
+isInt "0a"
+:load t1.hs
+:load t1.hs
+:load t1.hs
+isInt "1231a"
+isInt "1231"
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+firstName "HenriqueBecker"
+firstName "Henrique Becker"
+:load t1.hs
+:q
+codifica "opa soap"
+codifica "Rio grande do sul"
+:load t1.hs
+:load t1.hs
+codifica_ "Rio grande do sul"
+:load t1.hs
+codifica_ "Rio grande do sul"
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+semVogais_ "ppppqq"
+semVogais "aa"
+semVogais_ "opasopa"
+semVogais "ararar"
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+semVogais "Andre"
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+htmlListItems_ ["eu", "oi", "henrique"]
+htmlListItems ["eu", "oi", "henrique"]
+:load t1.hs
+:load t1.hs
+:load t1.hs
+:load t1.hs
+addComa ["EU", "tU", "NOS"]
+addComa ["EU", 'tU", "NOS"]
+:load t1.hs
+:load t1.hs
+:load t1.hs
+isVowel 'I'
+isVowel 'o'
+isVowel 'J'
+:load t1.hs
+isVowel 'J'
+isVowel 'a'
+isVowel 'E'
+isVowel 'A'
