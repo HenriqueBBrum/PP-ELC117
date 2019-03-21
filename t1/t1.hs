@@ -145,7 +145,7 @@ refazString :: String  -> String
 refazString str
           | length(str) == 10 = str
           | length(str) > 10 = take 10 str
-          | length(str) < 10 = take 10 (str++".......")
+          | length(str) < 10 = take 10 (str++"..........")
 
 refazStrings :: [String] -> [String]
 refazStrings strings = map refazString strings
