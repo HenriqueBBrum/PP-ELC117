@@ -149,3 +149,5 @@ refazString str
 
 refazStrings :: [String] -> [String]
 refazStrings strings = map refazString strings
+
+
