@@ -1,100 +1,42 @@
 :q
-isInt "abc"
-isInt "c02"
-isInt "02l2"
-isInt "0002"
-:load t1.hs
-:load t1.hs
-isInt "0002"
-:load t1.hs
-isInt "0002"
-isInt "02l2"
-isInt "c02"
-isInt "abc"
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-isInt "abc"
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-isInt "aa"
-isInt "00"
-isInt "0a"
-:load t1.hs
-:load t1.hs
-:load t1.hs
-isInt "1231a"
-isInt "1231"
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-firstName "HenriqueBecker"
-firstName "Henrique Becker"
-:load t1.hs
+betterEncodeName "UUUUUUUUUUOOOuua"
+:load C:\Users\hbrum\Desktop\t1\t1.hs
 :q
-codifica "opa soap"
-codifica "Rio grande do sul"
-:load t1.hs
-:load t1.hs
-codifica_ "Rio grande do sul"
-:load t1.hs
-codifica_ "Rio grande do sul"
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-semVogais_ "ppppqq"
-semVogais "aa"
-semVogais_ "opasopa"
-semVogais "ararar"
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-semVogais "Andre"
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-htmlListItems_ ["eu", "oi", "henrique"]
-htmlListItems ["eu", "oi", "henrique"]
-:load t1.hs
-:load t1.hs
-:load t1.hs
-:load t1.hs
-addComa ["EU", "tU", "NOS"]
-addComa ["EU", 'tU", "NOS"]
-:load t1.hs
-:load t1.hs
-:load t1.hs
-isVowel 'I'
-isVowel 'o'
-isVowel 'J'
-:load t1.hs
-isVowel 'J'
-isVowel 'a'
-isVowel 'E'
-isVowel 'A'
+refazStrings ["Henrqiue", "Joao", "nightmares", "paralelepipedo"]
+betterEncodeName "Artigo EQUaTOIral"
+:load C:\Users\hbrum\Desktop\t1.hs
+betterEncodeName "Artigo EQUaTOIral"
+betterEncodedName "Artigo EQUaTOIral"
+:load C:\Users\hbrum\Desktop\t1.hs
+:load C:\Users\hbrum\Desktop\t1.hs
+:load C:\Users\hbrum\Desktop\t1.hs
+:q
+:load C:\Users\hbrum\Desktop\t1.hs
+:load C:\Users\hbrum\Desktop\t1.hs
+:load C:\Users\hbrum\Desktop\t1.hs
+:load C:\Users\hbrum\Desktop\t1.hs
+:load C:\Users\hbrum\Desktop\t1.hs
+:q
+:Q
+:q
+encodeName "hENriqQUe"
+encodeName "Aratiucoer"
+:load C:\Users\hbrum\Desktop\t1.hs
+encodeName "Aratiucoer"
+:load C:\Users\hbrum\Desktop\t1.hs
+:load C:\Users\hbrum\Desktop\t1.hs
+:load C:\Users\hbrum\Desktop\t1.hs
+:load C:\Users\hbrum\Desktop\t1.hs
+userName "Jesus Maria Jose"
+userName "Henrqiue Becker BRUM"
+:load C:\Users\hbrum\Desktop\t1.hs
+:load C:\Users\hbrum\Desktop\t1.hs
+:load C:\Users\hbrum\Desktop\t1.hs
+lastName "Joao pereira neto"
+:load C:\Users\hbrum\Desktop\t1.hs
+:load "C:\Users\hbrum\Desktop\t1.hs"
+:load C:\Users\hbrum\Desktop
+:q
+lastName "Henrique BECKER brum"
+:q
+isInt "00a"
