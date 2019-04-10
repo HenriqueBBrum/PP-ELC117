@@ -1,5 +1,7 @@
-import Text.Printf
-import Data.Bool
+﻿import Text.Printf
+import Data.Char
+import System.IO
+import System.Exit
 
 type Point     = (Float,Float)
 type Rect      = (Point,Float,Float)
@@ -110,7 +112,7 @@ genCirclesInTiangularFormation n i r
   |n `mod` i == 0 = genNCirclesLines (n `div` i) i fstY r
   |otherwise = genNCirclesLines  (n`div`i) i fstY r ++ concat(genCircleLine (n `mod` i) (lastLineY+fstY) r)
   where lastLineY  = fromIntegral (n `div`i)*4*r
-        fstY = 50.0
+        fstY = 2*r
 
 genNCirclesLines :: Int -> Int -> Float -> Float ->[Circle]
 genNCirclesLines nline i y r
@@ -118,8 +120,7 @@ genNCirclesLines nline i y r
     |otherwise = concat(genCircleLine i y r) ++ genNCirclesLines (nline-1) i (y+4*r) r
 
 genCircleLine :: Int -> Float -> Float -> [[Circle]]
-genCircleLine i y r = [createCirclesTriangularForm (m*4*r) y r | m <- [fstX..fstX+fromIntegral (i-1)]]
-  where fstX = 10.0
+genCircleLine i y r = [createCirclesTriangularForm (m) y r | m <- [r,r+4*r..4*r*fromIntegral (i-1)]]
 
 createCirclesTriangularForm :: Float -> Float -> Float -> [Circle]
 createCirclesTriangularForm  x y r = [((x,y-(r-r/3)),r)]++[((x+(r-r/3),y+r/3),r)]++[((x-r+r/3,y+r/3),r)]
@@ -238,52 +239,108 @@ svgElements func elements styles = concat $ zipWith func elements styles
 -------------------------------------------------------------------------------
 -- Fun��o principal que gera arquivo com imagem SVG
 -------------------------------------------------------------------------------
-genCase1::String
-genCase1 = svgElements svgRect rects (map svgStyle palette)
+
+mapDigitsToInt :: [Char] -> Int
+mapDigitsToInt str = joinInt (map digitToInt str)
+
+joinInt :: [Int] -> Int
+joinInt l = read $ map intToDigit l
+
+genCase1::Int -> Int -> String
+genCase1 nrects nrectperline = svgElements svgRect rects (map svgStyle palette)
   where rects = genAllRects nrects nrectperline
         palette = completeGreenPalette nrects nrectperline
-        nrects = 100
-        nrectperline  = 10
 
-genCase2::String
-genCase2 = svgElements svgCircle circles (map svgStyle palette)
-  where circles = genCirclesInCircleFormation ncircles ((300.0,200.0), 75.0)
+genCase2::Int -> Float -> Point -> String
+genCase2 ncircles r p = svgElements svgCircle circles (map svgStyle palette)
+  where circles = genCirclesInCircleFormation ncircles (p, r)
         palette = rgbPalette2 ncircles
-        ncircles = 50
 
-genCase3 :: String
-genCase3 = svgElements svgCircle circles (map svgStyle palette)
+genCase3 ::Int -> Int -> Float -> String
+genCase3 ncirclescomb combPerLine r = svgElements svgCircle circles (map svgStyle palette)
   where circles = genCirclesInTiangularFormation ncirclescomb combPerLine r
-        palette = rgbPalette (3*ncirclescomb)
-        ncirclescomb = 101
-        combPerLine = 10
-        r = 10.0
+        palette = take (3*ncirclescomb) $ cycle [(255,0,0),(0,255,0),(0,0,255)]
 
-genCase4::String
-genCase4 = svgElements svgCircle circles (map svgStyle palette)
+
+genCase4::Int -> String
+genCase4 ncircles = svgElements svgCircle circles (map svgStyle palette)
   where circles = genCirclesInCurvilinearFormation ncircles
         palette = rgbPalette3 ncircles
-        ncircles = 60
+
 
 --Does something cool
-genCase5::String
-genCase5 = svgElements svgRect rects (map svgStyle palette)
-  where rects = genRectanglesInCircleFormation nC nR ((350.0,300.0),100)
+genCase5::Int -> Int-> Float -> Point ->String
+genCase5 nC nR r p = svgElements svgRect rects (map svgStyle palette)
+  where rects = genRectanglesInCircleFormation nC nR (p,r)
         palette = rgbPalette (nC*nR)
-        nC = 5
-        nR = 100
 
-genCase6::String
-genCase6 = svgElements svgRect rects (map svgStyle palette)
-  where palette = [(0,255,0) | n <-[0..length rects]]
-        rects = genRectanglesInMdSet (300.0,300.0) p mf mi
-        p = (2.0, 1.5)
-        mf  = 200
-        mi = 100
+genCase6::Int -> Int -> (Int,Int,Int) -> String
+genCase6 mf mi  color = svgElements svgRect rects (map svgStyle palette)
+  where palette = [color | n <-[0..length rects]]
+        rects = genRectanglesInMdSet (300.0,300.0) (2.0, 1.6) mf mi
 
+prompt :: String -> IO String
+prompt text = do
+  putStr text
+  hFlush stdout
+  getLine
 
-main :: IO ()
+--Abrir o caso 3 e 5 tanto no google quanto no explorer para ver as diferenças
+
+main :: IO()
 main = do
-  writeFile "caseX.svg" $ svgString
-  where svgString = svgBegin w h ++ genCase5 ++ svgEnd
-        (w,h) = (1500,1000)
+  putStrLn "Try case 3, 5 and 6 both on google and windows\n"
+  putStrLn "Choose a case :"
+  putStrLn "case 1 : A green table\ncase 2 : A circle formed of circles"
+  putStrLn "case 3 : A grid of Borromean rings\ncase 4 : Three curves formed by circles"
+  putStrLn "case 5 : Something interesting that happened by chance\ncase 6 : Mandelbrot set"
+
+  caseVar <- getChar
+  aux<- prompt ""
+
+  if(caseVar<'1' || caseVar >'6') then do
+      putStr "You chose a unvalid number"
+      exitFailure
+  else
+      putStrLn "You chose a valid number "
+
+  let (w,h) = (1500.0,1000.0)
+  printf "Width = %.2f Height =%.2f \n" w h
+  printf "Case %c\n" caseVar
+
+  case(caseVar) of
+      x | x == '1' -> do
+          n1<- prompt "Type how many rects: "
+          n2<- prompt "Type how many rects per line: "
+          writeFile "caseX.svg" $ svgBegin w h ++ genCase1 (read n1 :: Int) (read n2 :: Int) ++ svgEnd
+      x | x == '2' -> do
+          px<- prompt "Type X point where this case will be drawn: "
+          py<- prompt "Type Y point where this case will be drawn : "
+          let p = ((read px :: Float),(read py :: Float))
+          n1<- prompt "Type how many circles: "
+          n2<- prompt "Type the radius of the bigger circle: "
+          writeFile "caseX.svg" $ svgBegin w h ++ genCase2 (read n1 :: Int) (read n2 :: Float) p ++ svgEnd
+      x | x == '3' -> do
+          n1<- prompt "Type how many combinations: "
+          n2<- prompt "Type the amount of combinations per line "
+          n3<- prompt "Type the radius of every circle: "
+          writeFile "caseX.svg" $ svgBegin w h ++ genCase3  (read n1 :: Int) (read n2 :: Int) (read n3 :: Float) ++ svgEnd
+      x | x == '4' -> do
+          n1<- prompt "Type how many circles in total: "
+          writeFile "caseX.svg" $ svgBegin w h ++ genCase4 (read n1 :: Int) ++ svgEnd
+      x | x == '5' -> do
+          px<- prompt "Type X point where this case will be drawn: "
+          py<- prompt "Type Y point where this case will be drawn : "
+          let p = ((read px :: Float),(read py :: Float))
+          n1<- prompt "Type how many pairs of circles: "
+          n2<- prompt "Type the amount of rects per pair of circle "
+          n3<- prompt "Type the proportion of the radius of the smallest circle: "
+          writeFile "caseX.svg" $ svgBegin w h ++ genCase5  (read n1 :: Int) (read n2 :: Int) (read n3 :: Float) p ++ svgEnd
+      x | x == '6' -> do
+          putStr "This case some time to build so watch out for the maximum iteration\n"
+          n1<- prompt "Type the magnification factor: "
+          n2<- prompt "Type the maximum interation: "
+          r<- prompt "Type the value of the r in RGB: "
+          g<- prompt "Type the value of the g in RGB: "
+          b<- prompt "Type the value of the b in RGB: "
+          writeFile "caseX.svg" $ svgBegin w h ++ genCase6 (read n1 :: Int)  (read n1 :: Int) ((read n1 :: Int),(read n1 :: Int),(read n1 :: Int)) ++ svgEnd
