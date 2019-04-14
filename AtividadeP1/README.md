@@ -23,7 +23,8 @@ O → explicita o tipo de retorno (não precisa ser usado caso o tipo seja simpl
 
 O {} engloba o que a função irá fazer.
 
-## Exemplo:``` C++
+## Exemplo:
+``` C++
 		#include<iostream>
 
 		inline void  print(auto i){ std::cout<<"X = "<<i<<std::endl; }
