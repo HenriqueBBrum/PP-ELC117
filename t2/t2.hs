@@ -13,43 +13,35 @@ type Circle    = (Point,Float)
 -- Paletas
 -------------------------------------------------------------------------------
 
+--Case 2 and 4 normal palette
 rgbPalette :: Int -> [(Int,Int,Int)]
-rgbPalette n  = take (x+rest) (strongToWeak (x+rest) 'r') ++ take x (strongToWeak x 'g') ++ take x (strongToWeak x 'b')
+rgbPalette n  = take (x+rest) (fadeColor (x+rest) (80,0,0)) ++ take x (fadeColor x (0,80,0)) ++ take x (fadeColor x (0,0,80))
     where x = n `div` 3
           rest = n `mod` 3
+--Case 1 and 5 normal palette
+fadeColor ::Int -> (Int, Int, Int) -> [(Int, Int, Int)]
+fadeColor n color  = [createColor x (first color) (second color) (trd color) | x<-[0,(255 `div` n)..255]]
 
-strongToWeak :: Int -> Char ->[(Int,Int,Int)]
-strongToWeak 0 _ = []
-strongToWeak n c
-  |c == 'r' || c == 'R' = [(r,0,0) | r<-[0,(255 `div` n)..255]]
-  |c == 'g' || c == 'G' = [(0,g,0) | g<-[0,(255 `div` n)..255]]
-  |c == 'b' || c == 'B' = [(0,0,b) | b<-[0,(255 `div` n)..255]]
-  |otherwise = [(x,x-(x`div`2),x-(x`div`2)) | x <-[0,(255 `div` n)..255]]
+isZero :: Int -> Int
+isZero n = if n == 0 then 0 else 1
 
-
-fadeColor :: (Int, Int, Int) -> [(Int, Int, Int)]
-fadeColor color  = [color]
-
-trd (_,_,a) = a
-first (a,_,_) = a
-second (_,a,_) = a
-
-takeN :: Int -> [Int]
-takeN n
-  |n > 360 =  take n $ cycle [0..360]
-  |otherwise = take n $ cycle [0,(360 `div` n)..360]
+createColor :: Int -> Int -> Int ->Int -> (Int, Int, Int)
+createColor x r g b = ((x+r)*raux,(x+g)*gaux,(x+b)*baux)
+  where raux = isZero r
+        gaux = isZero g
+        baux = isZero b
 
 rainbowPalette :: Int  -> [(Int, Int, Int)]
 rainbowPalette n = [rainbowPalette2 x |x <- takeN n]
 
 rainbowPalette2 :: Int -> (Int, Int, Int)
-rainbowPalette2 angle
-  |angle < 60 = (255, hsvLights !! angle, 0)
-  |angle < 120 = (hsvLights !! (120-angle), 255, 0)
-  |angle < 180 = ( 0, 255, hsvLights !! (angle-120))
-  |angle < 240 = (0, hsvLights !! (240-angle), 255)
-  |angle < 300 = (hsvLights !! (angle-240), 0, 255)
-  |otherwise = (255, 0, hsvLights !! (360-angle))
+rainbowPalette2 i
+  |i < 60 = (255, hsvLights !! i, 0)
+  |i < 120 = (hsvLights !! (120-i), 255, 0)
+  |i < 180 = ( 0, 255, hsvLights !! (i-120))
+  |i < 240 = (0, hsvLights !! (240-i), 255)
+  |i < 300 = (hsvLights !! (i-240), 0, 255)
+  |otherwise = (255, 0, hsvLights !! (360-i))
   where hsvLights = part1 ++ part2 ++ part3 ++ part4
         part1 = [0, 4, 8, 13, 17, 21, 25, 30, 34, 38, 42, 47, 51, 55, 59, 64, 68, 72, 76]
         part2 = [81, 85, 89, 93, 98, 102, 106, 110, 115, 119, 123, 127, 132, 136, 140, 144]
@@ -57,6 +49,8 @@ rainbowPalette2 angle
         part4 = [212, 217, 221, 225, 229, 234, 238, 242, 246, 251, 255]
 
 
+
+--Convert HSV to RGB
 createRgbCopy :: Float-> Float -> Float -> (Float, Float, Float)
 createRgbCopy h c x
   | h>= 0 && h<60 = (c,x,0)
@@ -109,6 +103,7 @@ genRectsInLine n  y = [((m*(w+gap), y),w,h) | m <- [0..fromIntegral (n-1)]]
 -- Gera��o de circulos em formato de circulo
 -------------------------------------------------------------------------------
 
+--Generate qnt of circles around a point, each circles is r from that point
 genCirclesInCircleFormation :: Int -> Circle ->[Circle]
 genCirclesInCircleFormation qnt circle = genCircles qnt qnt circle
 
@@ -124,6 +119,7 @@ createCircle  r angle circle = [((fst(fst circle) + cos(angle)*snd circle,snd(fs
 -------------------------------------------------------------------------------
 -- Gera��o de circulos em formato de triangulo
 -------------------------------------------------------------------------------
+--Create multiples combinatons of triangles, each combination is r pixels from a common point
 genCirclesInTiangularFormation :: Int -> Int -> Float ->[Circle]
 genCirclesInTiangularFormation n i r
   |n `mod` i == 0 = genNCirclesLines (n `div` i) i fstY r
@@ -146,6 +142,7 @@ createCirclesTriangularForm  x y r = [((x,y-(r-r/3)),r)]++[((x+(r-r/3),y+r/3),r)
 -------------------------------------------------------------------------------
 -- Gera��o de circulos em linha curvilínea
 -------------------------------------------------------------------------------
+--Similar ideia to the second case
 genCirclesInCurvilinearFormation :: Int ->[Circle]
 genCirclesInCurvilinearFormation n = gen3CurvilinearLines n  50.0
 
@@ -169,6 +166,7 @@ createCircle2  n r angle p  = [((100.0 + fst p,100+ snd p + cos(angle)*4*(fromIn
 -------------------------------------------------------------------------------
 -- Gera��o de circulo fromado por varios retangulos
 -------------------------------------------------------------------------------
+--Creates rings of rectangle with each pair growing bigger, from a initial circle with center p and radius r
 genRectanglesInCircleFormation :: Int -> Int -> Circle ->[Rect]
 genRectanglesInCircleFormation qntC qntR circle = genNCircles qntC 0 qntR (fst circle) ((snd circle)/(fromIntegral qntC))
 
@@ -190,7 +188,6 @@ genRectangles qnt i center circleR
 aux:: Int -> Float -> Float
 aux 0 _ = 1
 aux n val = val + aux(n-1) (val/2)
-
 
 createRects ::  Float ->Point -> Float -> Float-> Point -> [Rect]
 createRects angle center circleR size p = [((fst center + cos(angle)*circleR-(fst p),snd center + sin(angle)*circleR), size,size)]
@@ -256,13 +253,20 @@ svgElements func elements styles = concat $ zipWith func elements styles
 -------------------------------------------------------------------------------
 -- Fun��o principal que gera arquivo com imagem SVG
 -------------------------------------------------------------------------------
+trd (_,_,a) = a
+first (a,_,_) = a
+second (_,a,_) = a
+
+takeN :: Int -> [Int]
+takeN n
+  |n > 360 =  take n $ cycle [0..360]
+  |otherwise = take n $ cycle [0,(360 `div` n)..360]
 
 mapDigitsToInt :: [Char] -> Int
 mapDigitsToInt str = joinInt (map digitToInt str)
 
 joinInt :: [Int] -> Int
 joinInt l = read $ map intToDigit l
-
 
 adjustColor:: String -> String -> String -> String -> (Int, Int, Int)
 adjustColor x y z hsv
@@ -272,10 +276,10 @@ adjustColor x y z hsv
 rainbowOrNot ::Int -> Int -> String -> (Int, Int, Int) -> [(Int, Int, Int)]
 rainbowOrNot cs n rw color
   | rw == "y" = rainbowPalette (n)
-  | cs ==  1 || cs == 2 = fadeColor color
+  | cs ==  1  = fadeColor n color
   | cs == 3 = take (n) $ cycle [(255,0,0),(0,255,0),(0,0,255)]
-  | cs == 4 = rgbPalette n
-  | cs == 5 = take (n) $ cycle [(255,0,0),(0,255,0),(0,0,255),(255,255,0)]
+  | cs == 4 || cs ==2 = rgbPalette n
+  | cs == 5 = fadeColor n color
   | cs == 6 = take n $ cycle [color]
 
 
@@ -301,10 +305,10 @@ genCase4 ncircles rw = svgElements svgCircle circles (map svgStyle palette)
 
 
 --Does something cool
-genCase5::Int -> Int-> Float -> Point -> String ->String
-genCase5 nC nR r p rw = svgElements svgRect rects (map svgStyle palette)
+genCase5::Int -> Int-> Float -> Point-> (Int,Int,Int) -> String ->String
+genCase5 nC nR r p color rw = svgElements svgRect rects (map svgStyle palette)
   where rects = genRectanglesInCircleFormation nC nR (p,r)
-        palette = rainbowOrNot 5 (nC*nR) rw (0,0,0)
+        palette = rainbowOrNot 5 (nC*nR) rw color
 
 genCase6::Int -> Int -> (Int,Int,Int)-> String -> String
 genCase6 mf mi color rw = svgElements svgRect rects (map svgStyle palette)
@@ -317,13 +321,13 @@ prompt text = do
   hFlush stdout
   getLine
 
-
+--Main fuction feels very imperative because i had to ask multiple questions
 main :: IO()
 main = do
   putStrLn "Try case 3, 5 and 6 both on google and windows\n"
-  putStrLn "case 1 : A green table\ncase 2 : A circle formed of circles"
+  putStrLn "case 1 : A table of rectangles\ncase 2 : A circle formed of circles"
   putStrLn "case 3 : A grid of Borromean rings\ncase 4 : Three curves formed by circles"
-  putStrLn "case 5 : Something interesting that happened by chance\ncase 6 : Mandelbrot set"
+  putStrLn "case 5 : Circles of rectangles\ncase 6 : Mandelbrot set"
 
   caseVar<- prompt "Choose a case: "
 
@@ -338,11 +342,11 @@ main = do
 
   rainbow <- prompt "To use rainbow palette type 'y', for normal palette type any other key: "
 
-  putStrLn "This next options will only work if you chose normal palette for case 1,2 or 6"
-  putStrLn "If your choices don't fall on that category just press they key 0 four times"
+  putStrLn "\nThis next options will only work if you chose normal palette for case 1, 5 or 6"
+  putStrLn "If your choices don't fall on that category just press the key '0' four times"
   putStrLn "Choose a color"
   hsv <- prompt "To use HSV type 'y', for RGB type any other key:  "
-  putStrLn "If you chose hsv, the fst value is between 0 and 360 , the snd and trd are 0.0 and 1.0"
+  putStrLn "\nIf you chose hsv, the fst value is between 0 and 360 , the snd and trd are 0.0 and 1.0"
   x<- prompt "Type the firt value of your color model: "
   y<- prompt "Type the second value of your color model: "
   z<- prompt "Type the thrid value of your color model: "
@@ -371,15 +375,17 @@ main = do
           n1<- prompt "Type how many circles in total: "
           writeFile "caseX.svg" $ svgBegin w h ++ genCase4 (read n1 :: Int) rainbow ++ svgEnd
       x | x == "5" -> do
+          putStrLn "Check this case with rainbow color and 1000 rects per circle"
           px<- prompt "Type X point where this case will be drawn: "
           py<- prompt "Type Y point where this case will be drawn : "
           let p = ((read px :: Float),(read py :: Float))
           n1<- prompt "Type how many pairs of circles: "
           n2<- prompt "Type the amount of rects per pair of circle "
           n3<- prompt "Type the proportion of the radius of the smallest circle: "
-          writeFile "caseX.svg" $ svgBegin w h ++ genCase5  (read n1 :: Int) (read n2 :: Int) (read n3 :: Float) p rainbow ++ svgEnd
+          writeFile "caseX.svg" $ svgBegin w h ++ genCase5  (read n1 :: Int) (read n2 :: Int) (read n3 :: Float) p color rainbow ++ svgEnd
       x | x == "6" -> do
-          putStr "This case takes some time to build so watch out for the maximum iteration\n"
+          putStr "This case takes some time to build so watch out for the maximum iteration choose between 10 and 50 for faster loading"
+          putStrLn "\nUse magnification factor 100 for a better view"
           n1<- prompt "Type the magnification factor: "
           n2<- prompt "Type the maximum interation: "
           writeFile "caseX.svg" $ svgBegin w h ++ genCase6 (read n1 :: Int)  (read n2 :: Int) color rainbow ++ svgEnd
