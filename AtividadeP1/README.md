@@ -1,4 +1,4 @@
-#Introdução às funções anônimas(lambda) em C++
+# Introdução às funções anônimas(lambda) em C++
 
 
 O C++ inclui desde o C++11 a alternativa de criar funções lambda, sendo um dos principais objetivos aumentar a facilidade e agilidade de escrever códigos.
@@ -23,8 +23,7 @@ O → explicita o tipo de retorno (não precisa ser usado caso o tipo seja simpl
 
 O {} engloba o que a função irá fazer.
 
-##Exemplo:
-		```C++
+## Exemplo:``` C++
 		#include<iostream>
 
 		inline void  print(auto i){ std::cout<<"X = "<<i<<std::endl; }
@@ -48,7 +47,7 @@ O {} engloba o que a função irá fazer.
 
    			return 0;
 		}
-		```
+```
 
 Obs.: Os parênteses após a função lambda são as chamadas das funções. Pode se declarar as funções lambdas também dessa maneira: “auto  f  = [](int x){return 1};” e depois chamar a função assim : “std::cout<<f(10)<<std::endl;”.
 
