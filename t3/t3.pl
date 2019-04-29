@@ -96,3 +96,15 @@ potenciaAux(X,N,L):-
 potencias(N,L):-
   N>=0,
   potenciaAux(0,N,L).
+
+
+cedulas(0,[],[]).
+cedulas(V,[X|T],L2):-
+	A is div(V,X),
+	L2 = [A|T2],
+	B is V-A*X,
+	cedulas(B,T,T2),!.
+
+
+
+
