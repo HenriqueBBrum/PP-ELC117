@@ -1,9 +1,9 @@
 repete(0, _, []).
 repete(N, C, L) :-
- N > 0,
- L = [C | T],
- N1 is N - 1,
- repete(N1, C, T),!.
+ 	N > 0,
+ 	L = [C | T],
+ 	N1 is N - 1,
+ 	repete(N1, C, T),!.
 
 
 odd(N):- 1 is mod(N,2),!.
@@ -11,7 +11,6 @@ odd(N):- 1 is mod(N,2),!.
 
 hasN([],0).
 hasN(L,N):-
-	N>0,
 	L = [_|T],
 	N1 is N-1,
 	hasN(T,N1),!.
@@ -25,7 +24,6 @@ inc99(L1,L2):-
 
 incN([],[],_).
 incN(L1,L2,N):-
-	N>0,
 	L1 = [H|T],
 	D is H+N,
 	L2 = [D|T2],
@@ -42,18 +40,18 @@ comment(L1,L2):-
 onlyEven([],[]).
 onlyEven(L1,L2):-
 	L1 = [H|T],
-  \+odd(H),
-  D is H,
-  L2 = [D|T2],
+  	\+odd(H),
+  	D is H,
+  	L2 = [D|T2],
 	onlyEven(T,T2),!.
 
 onlyEven(L1,L2):-
-  L1 = [_|T],
-  onlyEven(T,L2),!.
+  	L1 = [_|T],
+  	onlyEven(T,L2),!.
 
 countdown(0,[]).
 countdown(N,L):-
-  N>0,
+  	N>0,
 	L = [N|T],
 	N1 is N-1,
 	countdown(N1,T),!.
@@ -69,7 +67,7 @@ nRandoms(N,L):-
 
 potN0(-1,[]).
 potN0(N,L):-
-  N>=0,
+  	N>=0,
 	C is 2^N,
 	L = [C|T],
 	N1 is N-1,
@@ -88,14 +86,14 @@ zipMult(L1,L2,L3):-
 
 potenciaAux(N,N,[]).
 potenciaAux(X,N,L):-
-  C is 2^X,
-  L = [C|T],
-  X1 is X+1,
-  potenciaAux(X1,N,T),!.
+  	C is 2^X,
+  	L = [C|T],
+  	X1 is X+1,
+  	potenciaAux(X1,N,T),!.
 
 potencias(N,L):-
-  N>=0,
-  potenciaAux(0,N,L).
+  	N>=0,
+  	potenciaAux(0,N,L).
 
 
 cedulas(0,[],[]).
