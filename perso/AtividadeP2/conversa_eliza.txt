@@ -1,0 +1,82 @@
+Hello. I am ELIZA. How can I help you?
+> Hi
+
+I am not sure I understand you fully.
+> hello
+
+How do you do. Please state your problem.
+> i'm hungry
+
+What makes you think I am hungry?
+> what
+
+Why do you ask?
+> no reason
+
+Are you saying no just to be negative?
+> no
+
+You are being a bit negative.
+> no i am not
+
+Why not?
+> why not what
+
+Does that question interest you?
+> no
+
+Why no?
+> because it makes no sense
+
+Is that the real reason?
+> yes
+
+You seem quite positive.
+> of course
+
+Please go on.
+> how are you doing
+
+What is it you really want to know?
+> if you are doing fine
+
+Do you think it is likely that im doing fine?
+> yes
+
+You are sure?
+> maybe
+
+You do not seem quite certain.
+> that is why i asked you about it
+
+Perhaps in your fantasy we asked each other?
+> what fantasy
+
+Are such questions much on your mind?
+> no
+
+Are you saying no just to be negative?
+> should i buy chocolate
+
+Yes, why not buy chocolate all day.
+> okay thank you
+
+We were discussing you, not me.
+> what
+
+Why do you ask?
+> bye
+
+Why are you leaving?
+> beacuse i need to study
+
+What would it mean to you if you got to study?
+> good grades
+
+I am not sure I understand you fully.
+> goodbye
+
+Do not leave, I love you.
+> quit
+
+Goodbye. My secretary
