@@ -11,7 +11,7 @@ odd(N):- 1 is mod(N,2),!.
 
 hasN([],0).
 hasN(L,N):-
-	N>0
+	N>0,
 	L = [_|T],
 	N1 is N-1,
 	hasN(T,N1),!.
