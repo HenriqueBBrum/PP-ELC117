@@ -18,14 +18,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.*;
 
-import static javafx.geometry.Pos.CENTER;
 
 
 
@@ -58,7 +56,7 @@ public class RandomPickerGUI extends Application {
         nomeRemovido.setMinWidth(60);
 
         final Label label =  new Label("    NOME REMOVIDO: \n\n");
-        label.setAlignment(Pos.CENTER);
+        label.setAlignment(Pos.CENTER_LEFT);
         MenuBar menuB = new MenuBar();
         Menu file = new Menu("File");
         MenuItem open = new MenuItem("Open");
@@ -118,7 +116,7 @@ public class RandomPickerGUI extends Application {
     }
 
     public void handleImages(Scene scene, Menu file, Menu help, MenuItem exit, MenuItem open, MenuItem about, Button shuffle, Button next){
-        String imagesDir = "C:/Users/hbrum/Desktop/Universidade/3° Semestre/Paradigmas de Programação/Trabalho5/GUI/src/sample/Images/";
+        String imagesDir = "src/sample/Images/";
         File auxFile = new File(imagesDir+"file.jpg");
         if(auxFile.exists()) {
             Image fileIcon = new Image(getClass().getResourceAsStream("Images/file.jpg"));
@@ -177,9 +175,7 @@ public class RandomPickerGUI extends Application {
             public void handle(ActionEvent event) {
                 Common common = new Common();
                 String text = textArea.getText();
-                System.out.println("String\n"+text);
                 List<String> names = new ArrayList<String>(Arrays.asList(text.split("\n")));
-                System.out.println("List\n"+text);
                 if(!text.isEmpty()) {
                     next.setDisable(false);
                     common.shuffle(names);

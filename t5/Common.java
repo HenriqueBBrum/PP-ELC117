@@ -1,4 +1,4 @@
-package com.company;
+package sample;
 
 import java.util.*;
 import java.net.*;
@@ -48,11 +48,12 @@ public class Common {
     public void shuffle(List<String> names){
 
         if(!onlineShuffle(names)){
-               offlineShuffle(names);
-        }else if(names.size()%2==0) {
             offlineShuffle(names);
-        }else if(names.size()%2==0){
-            onlineShuffle(names);
+        }else {
+            if(names.size()%2==0)
+                offlineShuffle(names);
+            else if(names.size()%2==0)
+                onlineShuffle(names);
         }
 
     }
@@ -79,7 +80,12 @@ public class Common {
 
             // Envia dados pela conexão aberta
             con.getOutputStream().write(data.getBytes("UTF-8"));
-            //System.out.println("Response code: " + con.getResponseCode());
+            System.out.println("Response code: " + con.getResponseCode());
+
+            if(con.getResponseCode()!=200)
+                return false;
+
+
 
             // Cria objeto que fará leitura da resposta pela conexão aberta
             BufferedReader in = new BufferedReader(
