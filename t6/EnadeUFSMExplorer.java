@@ -1,6 +1,7 @@
+package sample;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -39,124 +40,7 @@ public class EnadeUFSMExplorer extends Application {
     private static final String defaultURL2 = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTO06Jdr3J1kPYoTPRkdUaq8Xu" +
             "slvSD5--FPMht-ilVBT1gExJXDPTiX0P3FsrxV5VKUZJrIUtH1wvN/pub?gid=1285855524&single=true&output=csv";
 
-    public class DataEntry {
-        private String ano;
-        private String prova;
-        private String tipoQuestao;
-        private String idQuestao;
-        private String objeto;
-        private String gabarito;
-        private String acertosCurso;
-        private String acertosRegiao;
-        private String acertosBrasil;
-        private String dif;
-        private String imageUrl;
 
-        public DataEntry(String ano, String prova, String tipoQuestao, String idQuestao, String objeto,String gabarito, String acertosCurso,
-                  String acertosRegiao, String acertosBrasil, String dif, String imageUrl){
-
-            this.ano =  ano;
-            this.prova = prova;
-            this.tipoQuestao = tipoQuestao;
-            this.idQuestao = idQuestao;
-            this.objeto = objeto;
-            this.gabarito =  gabarito;
-            this.acertosCurso = acertosCurso;
-            this.acertosRegiao = acertosRegiao;
-            this.acertosBrasil =  acertosBrasil;
-            this.dif = dif;
-            this.imageUrl = imageUrl;
-        }
-
-
-         public String getAcertosCurso() {
-             return acertosCurso;
-         }
-
-         public void setAcertosCurso(String acertosCurso) {
-             this.acertosCurso = acertosCurso;
-         }
-
-         public String getAno() {
-             return ano;
-         }
-
-         public void setAno(String ano) {
-             this.ano = ano;
-         }
-
-         public String getProva() {
-             return prova;
-         }
-
-         public void setProva(String prova) {
-             this.prova = prova;
-         }
-
-         public String getTipoQuestao() {
-             return tipoQuestao;
-         }
-
-         public void setTipoQuestao(String tipoQuestao) {
-             this.tipoQuestao = tipoQuestao;
-         }
-
-         public String getIdQuestao() {
-             return idQuestao;
-         }
-
-         public void setIdQuestao(String idQuestao) {
-             this.idQuestao = idQuestao;
-         }
-
-         public String getObjeto() {
-             return objeto;
-         }
-
-         public void setObjeto(String objeto) {
-             this.objeto = objeto;
-         }
-
-         public String getAcertosRegiao() {
-             return acertosRegiao;
-         }
-
-        public void setAcertosRegiao(String acertosRegiao) {
-            this.acertosRegiao = acertosRegiao;
-        }
-
-         public String getAcertosBrasil() {
-             return acertosBrasil;
-         }
-
-         public void setAcertosBrasil(String acertosBrasil) {
-             this.acertosBrasil = acertosBrasil;
-         }
-
-         public String getDif() {
-             return dif;
-         }
-
-         public void setDif(String dif) {
-             this.dif = dif;
-         }
-
-        public String getGabarito() {
-            return gabarito;
-        }
-
-        public void setGabarito(String gabarito) {
-            this.gabarito = gabarito;
-        }
-
-        public String getImageUrl() {
-            return imageUrl;
-        }
-
-        public void setImageUrl(String imageUrl) {
-            this.imageUrl = imageUrl;
-        }
-    }
 
     public List<String> parseLine(String line) {
 
@@ -236,9 +120,9 @@ public class EnadeUFSMExplorer extends Application {
     }
 
     private void readFromCsvFile(File f, List<DataEntry> data, Label label){
-         String line = "";
-         try (Scanner sc = new Scanner(new FileReader(f))) {
-             //Exclui a primeira linha
+        String line = "";
+        try (Scanner sc = new Scanner(new FileReader(f))) {
+            //Exclui a primeira linha
             if(sc.hasNextLine()) {
                 String fields = sc.nextLine();
             }
@@ -279,37 +163,37 @@ public class EnadeUFSMExplorer extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-     }
+    }
 
-    public void dowloadFileFromURL(String strUrl) throws IOException {
+    public void downloadFileFromURL(String strUrl) throws IOException {
         if(strUrl==null || strUrl.isEmpty()){
             return;
         }
-         if(!strUrl.equals(defaultURL1) && !strUrl.equals(defaultURL2)) {
-             System.out.println(strUrl.equals(defaultURL2));
-             Alert alerta = new Alert(Alert.AlertType.WARNING);
-             alerta.setContentText("Invalid URL");
-             alerta.showAndWait();
-             return;
-         }
-         try {
-             URL url = new URL(strUrl);
-             URLConnection connection = url.openConnection();
-             connection.connect();
-             ReadableByteChannel readC = Channels.newChannel(url.openStream());
-             FileOutputStream fileOS = new FileOutputStream("enade.csv", false);
-             FileChannel writeC =  fileOS.getChannel();
-             writeC.transferFrom(readC,0,Long.MAX_VALUE);
+        if(!strUrl.equals(defaultURL1) && !strUrl.equals(defaultURL2)) {
+            System.out.println(strUrl.equals(defaultURL2));
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setContentText("Invalid URL");
+            alerta.showAndWait();
+            return;
+        }
+        try {
+            URL url = new URL(strUrl);
+            URLConnection connection = url.openConnection();
+            connection.connect();
+            ReadableByteChannel readC = Channels.newChannel(url.openStream());
+            FileOutputStream fileOS = new FileOutputStream("src/sample/enade.csv", false);
+            FileChannel writeC =  fileOS.getChannel();
+            writeC.transferFrom(readC,0,Long.MAX_VALUE);
 
-             //System.out.println("Connection Successful");
-         }
-         catch (Exception e) {
-             Alert alerta = new Alert(Alert.AlertType.ERROR);
-             alerta.setContentText("No Internet connection");
-             alerta.showAndWait();
-         }
+            //System.out.println("Connection Successful");
+        }
+        catch (Exception e) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("No Internet connection");
+            alerta.showAndWait();
+        }
 
-     }
+    }
 
     private BarChart<String,Number> createBarChart(DataEntry dt){
         if(dt.getAcertosBrasil()==null || dt.getAcertosBrasil().isEmpty() || dt.getAcertosBrasil().equals("-")){
@@ -352,7 +236,7 @@ public class EnadeUFSMExplorer extends Application {
                 validImage = false;
                 imageBtn.setDisable(true);
             }else{
-                image = new Image(dt.getImageUrl());
+                image = new Image(dt.getImageUrl(),600,500,true,true,true);
                 if(image.isError()){
                     Alert alerta = new Alert(Alert.AlertType.ERROR);
                     alerta.setContentText("Couldn't download image");
@@ -362,9 +246,23 @@ public class EnadeUFSMExplorer extends Application {
                 }
             }
 
+            Stage newWindow = new Stage();
+
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            scrollPane.setManaged(false);
+            scrollPane.setVisible(false);
+
             ImageView imageView = null;
-            if(validImage)
-                    imageView = new ImageView(image);
+            if(validImage) {
+                imageView = new ImageView(image);
+                imageView.setPreserveRatio(true);
+                imageView.setSmooth(true);
+                imageView.setFitWidth(image.getWidth());
+
+                scrollPane.setContent(imageView);
+            }
 
             barChart.setManaged(false);
             barChart.setVisible(false);
@@ -389,14 +287,7 @@ public class EnadeUFSMExplorer extends Application {
             lv.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN,
                     CornerRadii.EMPTY, Insets.EMPTY)));
 
-            ScrollPane scrollPane = new ScrollPane();
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-            scrollPane.setManaged(false);
-            scrollPane.setVisible(false);
-            if(validImage) {
-                scrollPane.setContent(imageView);
-            }
+
 
             VBox vBox = new VBox(3);
             HBox hBox = new HBox(5);
@@ -409,24 +300,23 @@ public class EnadeUFSMExplorer extends Application {
             graphBtn.setOnAction(event -> {
                 barChart.setVisible(!barChart.isVisible());
                 barChart.setManaged(!barChart.isManaged());
-                if(finalValidImage)
+                if(finalValidImage) {
                     finalImageView.setManaged(false);
+                    imageBtn.setDisable(!imageBtn.isDisabled());
+                }
                 lv.setManaged(!lv.isManaged());
                 lv.setVisible(!lv.isVisible());
                 if(graphBtn.getText().equals("Data"))
                     graphBtn.setText("Graph");
                 else if(graphBtn.getText().equals("Graph"))
                     graphBtn.setText("Data");
-                if(finalValidImage)
-                    imageBtn.setDisable(!imageBtn.isDisabled());
+
             });
 
             ScrollPane finalScrollPane = scrollPane;
             imageBtn.setOnAction(event -> {
-                if(finalValidImage) {
-                    finalScrollPane.setVisible(!finalScrollPane.isVisible());
-                    finalScrollPane.setManaged(!finalScrollPane.isManaged());
-                }
+                finalScrollPane.setVisible(!finalScrollPane.isVisible());
+                finalScrollPane.setManaged(!finalScrollPane.isManaged());
                 barChart.setManaged(false);
                 lv.setManaged(!lv.isManaged());
                 lv.setVisible(!lv.isVisible());
@@ -438,14 +328,9 @@ public class EnadeUFSMExplorer extends Application {
 
             });
 
+
             Scene secondScene = new Scene(vBox, 600,450);
 
-            // New window (Stage)
-            Stage newWindow = new Stage();
-            if(validImage) {
-                imageView.fitWidthProperty().bind(newWindow.widthProperty());
-                imageView.preserveRatioProperty();
-            }
             newWindow.setTitle("Visualização Questão");
             newWindow.setScene(secondScene);
 
@@ -465,7 +350,7 @@ public class EnadeUFSMExplorer extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception{
         Alert alerta;
-        final String csvFile =  "enade.csv";
+        final String csvFile =  "src/sample/enade.csv";
         final String[] url = {defaultURL1};
         Label cursoLabel =  new Label();
         cursoLabel.setTextAlignment(TextAlignment.CENTER);
@@ -481,7 +366,7 @@ public class EnadeUFSMExplorer extends Application {
             alerta.setContentText("enade.csv doesn't exist");
             alerta.showAndWait();
             try {
-                dowloadFileFromURL(url[0]);
+                downloadFileFromURL(url[0]);
                 f =  new File(csvFile);
                 if(f.exists())
                     readFromCsvFile(f,data,cursoLabel);
@@ -591,24 +476,25 @@ public class EnadeUFSMExplorer extends Application {
 
 
         source.setOnAction(event -> {
-	    sourceText.setText("");
+            sourceText.setText("");
             sourceText.setVisible(!sourceText.isVisible());
             sourceText.setManaged(!sourceText.isManaged());
+        });
+
+        sourceText.setOnKeyReleased(keyEvent -> {
+            url[0] =  sourceText.getText();
         });
 
         ///Quando clicado pega o texto do sourceTexto e baixa a url do sourceText
         reload.setOnAction(actionEvent -> {
             try {
                 url[0] = sourceText.getText();
-                dowloadFileFromURL(url[0]);
+                downloadFileFromURL(url[0]);
                 File fl =  new File(csvFile);
                 if(fl.exists()) {
-		    data.clear();
+                    data.clear();
                     readFromCsvFile(fl, data, cursoLabel);
-                    
                     tv.setItems(FXCollections.observableList(data));
-                    //
-                    //;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -616,11 +502,9 @@ public class EnadeUFSMExplorer extends Application {
         });
 
         primaryStage.setTitle("EnadeUFSMExplorer");
-        primaryStage.setScene(new Scene(vbox,600, 450));
+        primaryStage.setScene(new Scene(vbox,600, 510));
         primaryStage.show();
     }
-
-
     public static void main(String[] args) {
         launch(args);
     }
