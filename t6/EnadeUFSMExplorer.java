@@ -1,5 +1,3 @@
-package sample;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -299,7 +297,7 @@ public class EnadeUFSMExplorer extends Application {
              URLConnection connection = url.openConnection();
              connection.connect();
              ReadableByteChannel readC = Channels.newChannel(url.openStream());
-             FileOutputStream fileOS = new FileOutputStream("src/sample/enade.csv", false);
+             FileOutputStream fileOS = new FileOutputStream("enade.csv", false);
              FileChannel writeC =  fileOS.getChannel();
              writeC.transferFrom(readC,0,Long.MAX_VALUE);
 
@@ -323,9 +321,6 @@ public class EnadeUFSMExplorer extends Application {
         if(dt.getAcertosRegiao()==null || dt.getAcertosRegiao().isEmpty() || dt.getAcertosRegiao().equals("-")){
             dt.setAcertosRegiao("0");
         }
-        System.out.println(dt.getAcertosCurso());
-        System.out.println(dt.getAcertosBrasil());
-        System.out.println(dt.getAcertosRegiao());
         CategoryAxis xAxis = new CategoryAxis();
         xAxis.setCategories(FXCollections.<String>observableArrayList(
                 Arrays.asList("Acertos Curso", "Acertos Região", "Acertos Brasil")));
@@ -443,7 +438,7 @@ public class EnadeUFSMExplorer extends Application {
 
             });
 
-            Scene secondScene = new Scene(vBox, 600,650);
+            Scene secondScene = new Scene(vBox, 600,450);
 
             // New window (Stage)
             Stage newWindow = new Stage();
@@ -470,7 +465,7 @@ public class EnadeUFSMExplorer extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception{
         Alert alerta;
-        final String csvFile =  "src/sample/enade.csv";
+        final String csvFile =  "enade.csv";
         final String[] url = {defaultURL1};
         Label cursoLabel =  new Label();
         cursoLabel.setTextAlignment(TextAlignment.CENTER);
@@ -596,6 +591,7 @@ public class EnadeUFSMExplorer extends Application {
 
 
         source.setOnAction(event -> {
+	    sourceText.setText("");
             sourceText.setVisible(!sourceText.isVisible());
             sourceText.setManaged(!sourceText.isManaged());
         });
@@ -607,19 +603,9 @@ public class EnadeUFSMExplorer extends Application {
                 dowloadFileFromURL(url[0]);
                 File fl =  new File(csvFile);
                 if(fl.exists()) {
+		    data.clear();
                     readFromCsvFile(fl, data, cursoLabel);
-                    tv.getItems().clear();
-
-                    colAno.setCellValueFactory(new PropertyValueFactory<>("ano"));
-                    colProva.setCellValueFactory(new PropertyValueFactory<>("prova"));
-                    colTipoQuestao.setCellValueFactory(new PropertyValueFactory<>("tipoQuestao"));
-                    colIdQuestao.setCellValueFactory(new PropertyValueFactory<>("idQuestao"));
-                    colObjeto.setCellValueFactory(new PropertyValueFactory<>("objeto"));
-                    colAcertosCurso.setCellValueFactory(new PropertyValueFactory<>("acertosCurso"));
-                    colAcertosRegiao.setCellValueFactory(new PropertyValueFactory<>("acertosRegiao"));
-                    colAcertosBrasil.setCellValueFactory(new PropertyValueFactory<>("acertosBrasil"));
-                    colDif.setCellValueFactory(new PropertyValueFactory<>("dif"));
-
+                    
                     tv.setItems(FXCollections.observableList(data));
                     //
                     //;
@@ -630,7 +616,7 @@ public class EnadeUFSMExplorer extends Application {
         });
 
         primaryStage.setTitle("EnadeUFSMExplorer");
-        primaryStage.setScene(new Scene(vbox,650, 600));
+        primaryStage.setScene(new Scene(vbox,600, 450));
         primaryStage.show();
     }
 
