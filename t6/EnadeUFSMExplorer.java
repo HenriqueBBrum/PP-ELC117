@@ -1,4 +1,4 @@
-package sample;
+//package sample;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -181,7 +181,7 @@ public class EnadeUFSMExplorer extends Application {
             URLConnection connection = url.openConnection();
             connection.connect();
             ReadableByteChannel readC = Channels.newChannel(url.openStream());
-            FileOutputStream fileOS = new FileOutputStream("src/sample/enade.csv", false);
+            FileOutputStream fileOS = new FileOutputStream("enade.csv", false);
             FileChannel writeC =  fileOS.getChannel();
             writeC.transferFrom(readC,0,Long.MAX_VALUE);
 
@@ -350,7 +350,7 @@ public class EnadeUFSMExplorer extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception{
         Alert alerta;
-        final String csvFile =  "src/sample/enade.csv";
+        final String csvFile =  "enade.csv";
         final String[] url = {defaultURL1};
         Label cursoLabel =  new Label();
         cursoLabel.setTextAlignment(TextAlignment.CENTER);

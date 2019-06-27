@@ -1,4 +1,4 @@
-package sample;
+//package sample;
 
 public class DataEntry {
     private String ano;
