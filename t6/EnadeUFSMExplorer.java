@@ -155,7 +155,8 @@ public class EnadeUFSMExplorer extends Application {
                     linha = parseLine(line);
                     //System.out.println(line);
                     line="";
-                    data.add(new DataEntry(linha.get(1), linha.get(2), linha.get(3), linha.get(4), linha.get(5)
+                    if(!linha.isEmpty())
+                        data.add(new DataEntry(linha.get(1), linha.get(2), linha.get(3), linha.get(4), linha.get(5)
                             ,linha.get(7), linha.get(8), linha.get(9), linha.get(10), linha.get(11), linha.get(17)));
                 }
             }
