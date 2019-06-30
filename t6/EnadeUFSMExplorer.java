@@ -48,7 +48,7 @@ public class EnadeUFSMExplorer extends Application {
         char separador = ',';
         char aspas = '"';
 
-        if (line == null && line.isEmpty()) {
+        if (line == null || line.isEmpty()) {
             return result;
         }
 
